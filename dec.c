@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include "aes.h"
 #include "aes_key.h"
 #include "dec_arg_opts.h"
@@ -41,10 +40,9 @@ int main(int argc, char * argv[]) {
     // decrypt message
     dec_msg = aes_decrypt(padded_msg+i, expanded_key);
     printf("%s", dec_msg);
+    free(dec_msg);
   }
   putchar('\n');
 
-  // free memory
-  free(dec_msg);
   return 0;
 }

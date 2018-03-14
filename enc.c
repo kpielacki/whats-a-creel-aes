@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include "aes.h"
 #include "aes_key.h"
 #include "enc_arg_opts.h"
@@ -32,11 +31,11 @@ int main(int argc, char * argv[]) {
     enc_msg = aes_encrypt(padded_msg+i, expanded_key);
     if (arguments.as_hex) print_hex(enc_msg);
     else printf("%s", enc_msg);
+    free(enc_msg);
   }
   if (!arguments.as_hex) putchar('\n');
 
-  // free memory
-  free(enc_msg);
   free(padded_msg);
+
   return 0;
 }
