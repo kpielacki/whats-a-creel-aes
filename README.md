@@ -2,12 +2,10 @@
 
 ## About
 This is the source code of the AES series created by What's a Creel. The video
-series can be found [here](https://www.youtube.com/watch?v=K2Xfm0-owS4). I do
+series can be found [here](https://www.youtube.com/watch?v=K3Xfm0-owS4). I do
 **not** take credit for this and I'm only posting it since it was requested in
 the comment section. However, I did implement the decryption portion and added
-a bit more context on what some of these functions do. As mentioned in the
-beginning of the series this should **not** be used in any implementation and
-is for the sake of understanding the inner workings of AES.
+a bit more context on what some of these functions do.
 
 I tried to reorganize some of the code in a way that still closely resembles
 the original. It should be noted this is for ECE AES-128. For larger bit keys
@@ -16,10 +14,24 @@ of rounds. If you are more curious I recommend you view
 [this](https://github.com/kokke/tiny-AES-c) implementation. It helped me when
 trying to work out the decryption portion and supports different key sizes.
 
+## Warning
+As mentioned in the beginning of the series this should **not** be used in any
+implementation and is for the sake of understanding the operations of AES. One
+type of attack mentioned by the author is cache-timing attacks where response
+times can leak information regarding the key. Many processors also include
+their own implementation of AES with a new instruction that vastly improves
+performance and according to current research should be safe from these types
+of attacks.
+
+Another reason to not base any real world applications on this is the fact that
+AES-ECB is not semantically secure. Comparing two ciphertexts or looking for
+repetitive information within a single ciphertext can leak plaintext
+information. A good explanation can be found
+[here](https://crypto.stackexchange.com/questions/20941/why-shouldnt-i-use-ecb-encryption).
+
 ## Compiling
 ```
-gcc print_hex.h lookup_boxes.h enc_arg_opts.h aes.h aes_key.h enc.c -o enc
-gcc print_hex.h lookup_boxes.h dec_arg_opts.h aes.h aes_key.h dec.c -o dec
+make
 ```
 
 ## Usage
@@ -30,7 +42,7 @@ file.
 
 ### Encryption
 ```
-$ ./enc -?
+$ ./bin/enc -?
 Usage: enc [OPTION...] message hex-print
 Encrypts input message with ECB AES-128
 
@@ -44,11 +56,11 @@ Mandatory or optional arguments to long options are also mandatory or optional
 for any corresponding short options.
 ```
 - Binary output of test message
-  * `$ ./enc`
+  * `$ ./bin/enc`
 - Hex output of test message
-  * `$ ./enc -h`
+  * `$ ./bin/enc -h`
 - Enter your own message
-  * `$ ./enc -m "This is a new message" -h`
+  * `$ ./bin/enc -m "This is a new message" -h`
 
 ### Decryption
 ```
@@ -65,6 +77,6 @@ Mandatory or optional arguments to long options are also mandatory or optional
 for any corresponding short options.
 ```
 - Decryption of hard coded test message
-  * `$ ./dec`
+  * `$ ./bin/dec`
 - Decrypt your own message read from binary
-  * `$ ./enc -m "own message"`
+  * `$ ./bin/dec -m "own message"`
